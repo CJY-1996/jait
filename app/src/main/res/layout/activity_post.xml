@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PostActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/post_title_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:hint="title"/>
+        <Button
+            android:id="@+id/post_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:text="save"/>
+    </LinearLayout>
+    <EditText
+        android:id="@+id/post_contents_edit"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_blue_light"
+        android:hint="Contents"
+        android:background="@null"/>
+</androidx.appcompat.widget.LinearLayoutCompat>
