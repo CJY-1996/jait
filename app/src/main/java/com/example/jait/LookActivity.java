@@ -38,11 +38,12 @@ public class LookActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRef = mDatabase.getReference();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
-
+    private int flag = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look);
+
         String title = "";
         String contents = "";
         String postnum = "";
@@ -63,8 +64,7 @@ public class LookActivity extends AppCompatActivity {
         findViewById(R.id.look_getchat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRef.child("chatting");
-                mRef.child("chatting").child(finalPostnum).setValue(finalPostnum);
+
                 Intent intent = new Intent(getBaseContext(), ChatActivity.class);
                 intent.putExtra("postId", finalPostnum);
                 startActivity(intent);

@@ -51,31 +51,30 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> messageArrayList = new ArrayList<>();
     private ProgressBar progressBar;
     private long last_message_timestamp = 0;
-    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String postnum = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Bundle extras = getIntent().getExtras();
-        postnum = extras.getString("postId");
-
-
         mContext = ChatActivity.this;
-        main_recycler_view = (RecyclerView) findViewById(R.id.main_recycler_view);
+        main_recycler_view = (RecyclerView) findViewById(R.id.main_recycler);
         imageButton_send = (ImageButton) findViewById(R.id.imageButton_send);
         editText_message = (EditText) findViewById(R.id.editText_message);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
-        username = mAuth.getCurrentUser().getDisplayName().toString();
+        username = mAuth.getCurrentUser().getDisplayName();
+
         main_recycler_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ChatAdapter(mContext, messageArrayList);
         main_recycler_view.setAdapter(adapter);
+
+        Bundle extras = getIntent().getExtras();
+        postnum = extras.getString("postId");
 
         databaseRef.child("chatting").child(postnum).child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
             @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {

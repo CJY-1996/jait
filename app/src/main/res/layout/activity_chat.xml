@@ -36,7 +36,7 @@
     </ProgressBar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycler_view"
+        android:id="@+id/main_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/linLayout_text"
@@ -46,7 +46,7 @@
         app:reverseLayout="true"
         android:focusableInTouchMode="true"
         android:layout_below="@+id/toolbar"
-        ></androidx.recyclerview.widget.RecyclerView>
+        />
 
 
 
