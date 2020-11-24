@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 userMap.put(FirebaseID.documentID, user.getUid());
                                 userMap.put(FirebaseID.email, user.getEmail());
                                 userMap.put("nickname", user.getDisplayName());
+                                userMap.put(FirebaseID.myChatting, Arrays.asList());
                                 mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
                                 startActivity(new Intent(MainActivity.this,ChooseActivity.class));
                                 finish();

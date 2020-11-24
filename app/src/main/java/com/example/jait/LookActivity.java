@@ -11,12 +11,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.jait.models.Post;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,9 +30,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.jait.FirebaseID.postId;
 
@@ -37,7 +44,9 @@ public class LookActivity extends AppCompatActivity {
     final static String filename = "logfile.txt";
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRef = mDatabase.getReference();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    DocumentReference mDocRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
     private int flag = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +73,7 @@ public class LookActivity extends AppCompatActivity {
         findViewById(R.id.look_getchat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                mDocRef.update(FirebaseID.myChatting, FieldValue.arrayUnion(finalPostnum));
                 Intent intent = new Intent(getBaseContext(), ChatActivity.class);
                 intent.putExtra("postId", finalPostnum);
                 startActivity(intent);

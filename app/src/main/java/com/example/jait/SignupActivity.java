@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +54,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 userMap.put(FirebaseID.nickname, mNickName.getText().toString());
                                 userMap.put(FirebaseID.email,mEmailText.getText().toString());
                                 userMap.put(FirebaseID.password,mPasswordText.getText().toString());
+                                userMap.put(FirebaseID.myChatting, Arrays.asList());
                                 mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
                                 finish();
                             }
