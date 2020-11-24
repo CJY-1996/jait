@@ -45,7 +45,7 @@
         app:stackFromEnd ="true"
         app:reverseLayout="true"
         android:focusableInTouchMode="true"
-        android:layout_below="@+id/appBarLayout"
+        android:layout_below="@+id/toolbar"
         ></androidx.recyclerview.widget.RecyclerView>
 
 

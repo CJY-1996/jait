@@ -69,14 +69,12 @@ public class ChatActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
         username = mAuth.getCurrentUser().getDisplayName().toString();
-        progressBar.setVisibility(View.VISIBLE);
         main_recycler_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ChatAdapter(mContext, messageArrayList);
         main_recycler_view.setAdapter(adapter);
 
         databaseRef.child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
             @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                progressBar.setVisibility(View.GONE);
                 Message new_message = dataSnapshot.getValue(Message.class);
                 messageArrayList.add(new_message);
                 adapter.notifyDataSetChanged();

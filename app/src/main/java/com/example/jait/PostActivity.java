@@ -26,7 +26,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mTitle, mContents;
 
     private String nickname;
-    private String postId;
+    public String postId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

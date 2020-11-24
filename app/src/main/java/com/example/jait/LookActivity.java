@@ -1,5 +1,7 @@
 package com.example.jait;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +9,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,9 +27,14 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.example.jait.FirebaseID.postId;
+
 public class LookActivity extends AppCompatActivity {
     final static String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+"/TestLog";
     final static String filename = "logfile.txt";
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private DatabaseReference mRef = mDatabase.getReference();
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +60,9 @@ public class LookActivity extends AppCompatActivity {
         findViewById(R.id.look_getchat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mRef.child("chatting");
+                mRef.setValue(postId);
+
                 startActivity(new Intent(LookActivity.this,ChatActivity.class));
                 getSaveFile();
                 finish();
