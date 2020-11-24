@@ -24,19 +24,21 @@ import com.example.jait.models.Message;
 import com.example.jait.utils.ProfanityFilter;
 import com.example.jait.utils.SCUtils;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class ChatActivity extends AppCompatActivity {
     public static final int ANTI_FLOOD_SECONDS = 3; //simple anti-flood
     private boolean IS_ADMIN = false; //set this to true for the admin app.
-    private String username = "anonymous"; //default username
+    private String username = ""; //default username
     private boolean PROFANITY_FILTER_ACTIVE = true;
     private FirebaseDatabase database;
     private RecyclerView main_recycler_view;
@@ -49,6 +51,9 @@ public class ChatActivity extends AppCompatActivity {
     ArrayList<Message> messageArrayList = new ArrayList<>();
     private ProgressBar progressBar;
     private long last_message_timestamp = 0;
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +68,7 @@ public class ChatActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         database = FirebaseDatabase.getInstance();
         databaseRef = database.getReference();
-
+        username = mAuth.getCurrentUser().getDisplayName().toString();
         progressBar.setVisibility(View.VISIBLE);
         main_recycler_view.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ChatAdapter(mContext, messageArrayList);
@@ -137,22 +142,7 @@ public class ChatActivity extends AppCompatActivity {
         last_message_timestamp = System.currentTimeMillis() / 1000L;
     }
     private void logic_for_username() {
-        userID = SCUtils.getUniqueID(getApplicationContext());
-        databaseRef.child("users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override public void onDataChange(DataSnapshot dataSnapshot) {
-                progressBar.setVisibility(View.GONE);
-                if (!dataSnapshot.exists()) {
-                    show_alert_username();
-                } else {
-                    username = dataSnapshot.getValue(String.class);
-                    Snackbar.make(findViewById(android.R.id.content), "Logged in as " + username, Snackbar.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override public void onCancelled(DatabaseError databaseError) {
-                Log.w("!!!", "username:onCancelled", databaseError.toException());
-            }
-        });
+        userID = mAuth.getCurrentUser().getDisplayName().toString();
     }
     private void show_alert_username() {
         AlertDialog.Builder alertDialogUsername = new AlertDialog.Builder(mContext);
