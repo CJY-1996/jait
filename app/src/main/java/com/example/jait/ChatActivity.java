@@ -53,13 +53,17 @@ public class ChatActivity extends AppCompatActivity {
     private long last_message_timestamp = 0;
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private String postnum = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle extras = getIntent().getExtras();
+        postnum = extras.getString("postId");
+
 
         mContext = ChatActivity.this;
         main_recycler_view = (RecyclerView) findViewById(R.id.main_recycler_view);
@@ -73,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new ChatAdapter(mContext, messageArrayList);
         main_recycler_view.setAdapter(adapter);
 
-        databaseRef.child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
+        databaseRef.child("chatting").child(postnum).child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
             @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Message new_message = dataSnapshot.getValue(Message.class);
                 messageArrayList.add(new_message);
@@ -134,8 +138,8 @@ public class ChatActivity extends AppCompatActivity {
         editText_message.setText("");
 
         Message xmessage = new Message(userID, username, new_message, System.currentTimeMillis() / 1000L, IS_ADMIN, isNotification);
-        String key = databaseRef.child("the_messages").push().getKey();
-        databaseRef.child("the_messages").child(key).setValue(xmessage);
+        String key = databaseRef.child("chatting").child(postnum).child("the_messages").push().getKey();
+        databaseRef.child("chatting").child(postnum).child("the_messages").child(key).setValue(xmessage);
 
         last_message_timestamp = System.currentTimeMillis() / 1000L;
     }

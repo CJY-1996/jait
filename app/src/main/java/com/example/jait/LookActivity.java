@@ -27,17 +27,18 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.example.jait.FirebaseID.postId;
 
 public class LookActivity extends AppCompatActivity {
-    final static String foldername = Environment.getExternalStorageDirectory().getAbsolutePath()+"/TestLog";
+    final static String foldername = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TestLog";
     final static String filename = "logfile.txt";
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRef = mDatabase.getReference();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
-    private List<Post> mDatas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +53,8 @@ public class LookActivity extends AppCompatActivity {
         contents = extras.getString("contents");
         postnum = extras.getString("postId");
 
-
         TextView textView = (TextView) findViewById(R.id.look_title);
-        TextView contentsView =(TextView) findViewById(R.id.look_contents);
+        TextView contentsView = (TextView) findViewById(R.id.look_contents);
 
         textView.setText(title);
         contentsView.setText(contents);
@@ -65,20 +65,23 @@ public class LookActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mRef.child("chatting");
                 mRef.child("chatting").child(finalPostnum).setValue(finalPostnum);
-                startActivity(new Intent(LookActivity.this,ChatActivity.class));
+                Intent intent = new Intent(getBaseContext(), ChatActivity.class);
+                intent.putExtra("postId", finalPostnum);
+                startActivity(intent);
                 getSaveFile();
                 finish();
 
             }
         });
     }
+
     public File getSaveFile() {
         String str = "데이터를 넣으셔";
         // 파일 생성
         File saveFile = new File(foldername); // 저장 경로
 // 폴더 생성
 
-        if( !saveFile.exists()) {
+        if (!saveFile.exists()) {
             try {   //폴더 없으면 폴더 생성
                 saveFile.mkdir();
             } catch (Exception ex) {
@@ -86,8 +89,8 @@ public class LookActivity extends AppCompatActivity {
             }
         }
 
-        File file = new File(foldername+filename);
-        try{
+        File file = new File(foldername + filename);
+        try {
             FileOutputStream fos = new FileOutputStream(file);
             BufferedWriter buf = new BufferedWriter(new OutputStreamWriter(fos));
 
@@ -116,8 +119,7 @@ public class LookActivity extends AppCompatActivity {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } catch(FileNotFoundException e)
-        {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
