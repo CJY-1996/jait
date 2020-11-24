@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.jait.models.Post;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.example.jait.FirebaseID.postId;
 
@@ -35,20 +37,20 @@ public class LookActivity extends AppCompatActivity {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mRef = mDatabase.getReference();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
-
+    private List<Post> mDatas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_look);
         String title = "";
         String contents = "";
-
+        String postnum = "";
 
         Bundle extras = getIntent().getExtras();
 
         title = extras.getString("title");
         contents = extras.getString("contents");
-
+        postnum = extras.getString("postId");
 
 
         TextView textView = (TextView) findViewById(R.id.look_title);
@@ -57,12 +59,12 @@ public class LookActivity extends AppCompatActivity {
         textView.setText(title);
         contentsView.setText(contents);
 
+        final String finalPostnum = postnum;
         findViewById(R.id.look_getchat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mRef.child("chatting");
-                mRef.setValue(postId);
-
+                mRef.child("chatting").child(finalPostnum).setValue(finalPostnum);
                 startActivity(new Intent(LookActivity.this,ChatActivity.class));
                 getSaveFile();
                 finish();

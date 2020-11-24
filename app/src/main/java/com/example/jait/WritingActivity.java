@@ -58,12 +58,11 @@ public class WritingActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onClick(View view, int position) {
                 Post post= mDatas.get(position);
-                Toast.makeText(getApplicationContext(), post.getTitle()+' '+post.getContents()+' '+post.getNickname(), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getBaseContext(), LookActivity.class);
 
                 intent.putExtra("title", post.getTitle());
                 intent.putExtra( "contents", post.getContents());
-
+                intent.putExtra("postId", post.getPostId());
 
                 startActivity(intent);
             }
