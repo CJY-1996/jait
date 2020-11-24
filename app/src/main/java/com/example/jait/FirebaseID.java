@@ -10,6 +10,7 @@ public class FirebaseID {
     public static String email = "email";
     public static String password = "password";
     public static String myChatting = "myChatting";
+    public static String profileUri = "profileUri";
 
     public static String title = "title";
     public static String contents = "contents";

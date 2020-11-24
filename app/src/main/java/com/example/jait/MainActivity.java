@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
+    private Uri imageUri = Uri.parse("android.resource://com.example.jait/" + R.drawable.ic_nav_profile_circle_800);
+    private String mProfileUri = imageUri.toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 userMap.put(FirebaseID.documentID, user.getUid());
                                 userMap.put(FirebaseID.email, user.getEmail());
                                 userMap.put("nickname", user.getDisplayName());
+                                userMap.put(FirebaseID.profileUri, mProfileUri);
                                 userMap.put(FirebaseID.myChatting, Arrays.asList());
                                 mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
                                 startActivity(new Intent(MainActivity.this,ChooseActivity.class));

@@ -3,6 +3,7 @@ package com.example.jait;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +27,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
 
     private EditText mEmailText, mPasswordText, mNickName;
+
+    private Uri imageUri = Uri.parse("android.resource://com.example.jait/" + R.drawable.ic_nav_profile_circle_800);
+    private String mProfileUri = imageUri.toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,9 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 Map<String, Object> userMap = new HashMap<>();
                                 userMap.put(FirebaseID.documentID, user.getUid());
                                 userMap.put(FirebaseID.nickname, mNickName.getText().toString());
+                                userMap.put(FirebaseID.email, mEmailText.getText().toString());
+                                userMap.put(FirebaseID.password, mPasswordText.getText().toString());
+                                userMap.put(FirebaseID.profileUri, mProfileUri);
                                 userMap.put(FirebaseID.email,mEmailText.getText().toString());
                                 userMap.put(FirebaseID.password,mPasswordText.getText().toString());
                                 userMap.put(FirebaseID.myChatting, Arrays.asList());
