@@ -6,6 +6,10 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,17 +22,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private DocumentReference mDefRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
+    private DocumentReference mDocRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
     private Uri imageUri;
     private Uri newUri;
 
@@ -59,15 +72,22 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        mDefRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        imageUri = Uri.parse(document.get(FirebaseID.profileUri).toString());
-                        ImageView profile_image = findViewById(R.id.profile_image);
-                        profile_image.setImageURI(imageUri);
+                        final ImageView profile_image = findViewById(R.id.profile_image);
+                        String imagename = document.get(FirebaseID.nickname) + ".png";
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(getApplicationContext()).load(uri).into(profile_image);
+                            }
+                        });
                     }
                 }
             }
@@ -102,12 +122,83 @@ public class ProfileActivity extends AppCompatActivity {
         profile_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDefRef.update("profileUri", newUri.toString());
 
-                // row_main의 image_chat imageview 변경
-                View inflater = getLayoutInflater().inflate(R.layout.row_main, null, false);
-                ImageView image_chat = (ImageView) inflater.findViewById(R.id.image_chat);
-                image_chat.setImageURI(newUri);
+                // firebase storage에 User이름으로 이미지 저장
+                mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // firebase storage
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                // 이미지 파일명 지정
+                                String filename = document.get(FirebaseID.nickname) + ".png";
+                                // 이미지 저장
+                                StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(filename);
+                                storageRef.putFile(newUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+                mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                View inflater = getLayoutInflater().inflate(R.layout.activity_choose, null);
+                                final ImageView drawer_profile_image = (ImageView) inflater.findViewById(R.id.drawer_profile_image);
+                                String imagename = document.get(FirebaseID.nickname) + ".png";
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Glide.with(getApplicationContext()).load(uri).into(drawer_profile_image);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+/*
+                // firebase storage에서 이미지 파일 가져오기
+                mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                final ImageView profile_iamge = findViewById(R.id.profile_image);
+                                String imagename = document.get(FirebaseID.nickname)+".png";
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Glide.with(getApplicationContext()).load(uri).into(profile_iamge);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
+*/
+
 
                 startActivity(new Intent(ProfileActivity.this, ChooseActivity.class));
             }

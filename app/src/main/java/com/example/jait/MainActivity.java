@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             final FirebaseUser user = mAuth.getCurrentUser();
-                            mDocRef.collection(FirebaseID.user).document(user.getUid());
+                            mDocRef = mStore.collection(FirebaseID.user).document(user.getUid());
                             if (user != null) {
                                 mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override

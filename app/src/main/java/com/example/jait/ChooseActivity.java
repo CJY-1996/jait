@@ -19,12 +19,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class ChooseActivity extends AppCompatActivity {
@@ -34,7 +38,7 @@ public class ChooseActivity extends AppCompatActivity {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String nickname;
 
-    private DocumentReference mDefRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
+    private DocumentReference mDocRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
     private Uri imageUri;
 
     @Override
@@ -43,17 +47,24 @@ public class ChooseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose);
 
 
-        mDefRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        imageUri = Uri.parse(document.get(FirebaseID.profileUri).toString());
-                        ImageView drawer_profile_image = findViewById(R.id.drawer_profile_image);
-                        drawer_profile_image.setImageURI(imageUri);
-                        drawer_profile_image.setBackground(new ShapeDrawable(new OvalShape()));
-                        drawer_profile_image.setClipToOutline(true);
+                        final ImageView drawer_profile_image = findViewById(R.id.drawer_profile_image);
+                        String imagename = document.get(FirebaseID.nickname) + ".png";
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(getApplicationContext()).load(uri).into(drawer_profile_image);
+                                drawer_profile_image.setBackground(new ShapeDrawable(new OvalShape()));
+                                drawer_profile_image.setClipToOutline(true);
+                            }
+                        });
                     }
                 }
             }
@@ -136,7 +147,7 @@ public class ChooseActivity extends AppCompatActivity {
         findViewById(R.id.choose_chatting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ChooseActivity.this,CRoomActivity.class));
+                startActivity(new Intent(ChooseActivity.this, CRoomActivity.class));
             }
         });
     }
