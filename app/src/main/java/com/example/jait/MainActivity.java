@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
     private DocumentReference mDocRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
-
+    private Button login,signUp;
     private Uri imageUri = Uri.parse("android.resource://com.example.jait/" + R.drawable.ic_nav_profile_circle_800);
     private String mProfileUri = imageUri.toString();
 
@@ -80,9 +82,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPassword = findViewById(R.id.login_password);
         button = findViewById(R.id.google_login);
 
+        login = findViewById(R.id.login_success);
+        signUp = findViewById(R.id.login_signup);
+
+        login.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    login.setBackgroundColor(Color.rgb(102,0,53));
+                    login.setTextColor(Color.rgb(255,255,255));
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    login.setBackgroundColor(Color.rgb(255,255,255));
+                    login.setTextColor(Color.rgb(102,0,53));
+                }
+                return false;
+            }
+        });
+        signUp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    signUp.setBackgroundColor(Color.rgb(102,0,53));
+                    signUp.setTextColor(Color.rgb(255,255,255));
+                } else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    signUp.setBackgroundColor(Color.rgb(255,255,255));
+                    signUp.setTextColor(Color.rgb(102,0,53));
+                }
+                return false;
+            }
+        });
         findViewById(R.id.login_signup).setOnClickListener(this);
         findViewById(R.id.login_success).setOnClickListener(this);
-
         findViewById(R.id.google_login).setOnClickListener(this);
     }
 
