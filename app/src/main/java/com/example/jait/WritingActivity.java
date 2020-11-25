@@ -45,6 +45,7 @@ public class WritingActivity extends AppCompatActivity implements View.OnClickLi
     private PostAdapter mAdapter;
     private List<Post> mDatas;
     private List<Post> mArrayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,11 +58,11 @@ public class WritingActivity extends AppCompatActivity implements View.OnClickLi
         mPostRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mPostRecyclerView, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Post post= mDatas.get(position);
+                Post post = mDatas.get(position);
                 Intent intent = new Intent(getBaseContext(), LookActivity.class);
 
                 intent.putExtra("title", post.getTitle());
-                intent.putExtra( "contents", post.getContents());
+                intent.putExtra("contents", post.getContents());
                 intent.putExtra("postId", post.getPostId());
 
                 startActivity(intent);
@@ -92,7 +93,7 @@ public class WritingActivity extends AppCompatActivity implements View.OnClickLi
                                 String title = String.valueOf(shot.get(FirebaseID.title));
                                 String contents = String.valueOf(shot.get(FirebaseID.contents));
                                 String postid = String.valueOf(shot.get(FirebaseID.postId));
-                                Post data = new Post(documentId,nickname, title, contents, postid);
+                                Post data = new Post(documentId, nickname, title, contents, postid);
                                 mDatas.add(data);
                             }
                             mAdapter = new PostAdapter(mDatas);
@@ -104,8 +105,9 @@ public class WritingActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        startActivity(new Intent(this,PostActivity.class));
+        startActivity(new Intent(this, PostActivity.class));
     }
+
     public interface ClickListener {
         void onClick(View view, int position);
 
@@ -151,5 +153,11 @@ public class WritingActivity extends AppCompatActivity implements View.OnClickLi
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(WritingActivity.this, ChooseActivity.class));
+        finish();
     }
 }

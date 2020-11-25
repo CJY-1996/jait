@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jait.adapters.ChatAdapter;
 import com.example.jait.models.Message;
@@ -77,33 +79,39 @@ public class ChatActivity extends AppCompatActivity {
         postnum = extras.getString("postId");
 
         databaseRef.child("chatting").child(postnum).child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
-            @Override public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Message new_message = dataSnapshot.getValue(Message.class);
                 messageArrayList.add(new_message);
                 adapter.notifyDataSetChanged();
                 main_recycler_view.scrollToPosition(adapter.getItemCount() - 1);
             }
 
-            @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
             }
 
-            @Override public void onChildRemoved(DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Log.d("REMOVED", dataSnapshot.getValue(Message.class).toString());
                 messageArrayList.remove(dataSnapshot.getValue(Message.class));
                 adapter.notifyDataSetChanged();
             }
 
-            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
-            @Override public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
         imageButton_send.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
+            @Override
+            public void onClick(View view) {
                 process_new_message(editText_message.getText().toString().trim(), false);
             }
         });
@@ -119,6 +127,7 @@ public class ChatActivity extends AppCompatActivity {
 
         logic_for_username();
     }
+
     private void process_new_message(String new_message, boolean isNotification) {
         if (new_message.isEmpty()) {
             return;
@@ -142,9 +151,11 @@ public class ChatActivity extends AppCompatActivity {
 
         last_message_timestamp = System.currentTimeMillis() / 1000L;
     }
+
     private void logic_for_username() {
         userID = mAuth.getCurrentUser().getDisplayName().toString();
     }
+
     private void show_alert_username() {
         AlertDialog.Builder alertDialogUsername = new AlertDialog.Builder(mContext);
         alertDialogUsername.setMessage("Your username");
@@ -154,7 +165,8 @@ public class ChatActivity extends AppCompatActivity {
 
         alertDialogUsername.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
 
-            @Override public void onClick(DialogInterface dialog, int id) {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
                 String new_username = input.getText().toString().trim();
                 if ((!new_username.equals(username)) && (!username.equals("anonymous"))) {
                     process_new_message(username + " changed it's nickname to " + new_username, true);
@@ -164,19 +176,22 @@ public class ChatActivity extends AppCompatActivity {
             }
         }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
 
-            @Override public void onClick(DialogInterface dialog, int id) {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
         });
         alertDialogUsername.show();
     }
 
-    @Override public boolean onCreateOptionsMenu(Menu menu) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             show_alert_username();
@@ -184,5 +199,19 @@ public class ChatActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private long time = 0;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - time >= 2000) {
+            time = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한번더 누르면 채팅이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        } else if (System.currentTimeMillis() - time < 2000) {
+            startActivity(new Intent(ChatActivity.this, CRoomActivity.class));
+            finish();
+        }
     }
 }

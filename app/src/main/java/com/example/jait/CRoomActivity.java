@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.jait.adapters.PostAdapter;
 import com.example.jait.models.Post;
@@ -42,6 +43,7 @@ public class CRoomActivity extends AppCompatActivity {
     private List<Post> mArrayList;
     private String[] temp = new String[1000000];
     private int flag = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +54,11 @@ public class CRoomActivity extends AppCompatActivity {
 
         mPostRecyclerView.addOnItemTouchListener(new CRoomActivity.RecyclerTouchListener(getApplicationContext(), mPostRecyclerView, new CRoomActivity.ClickListener() {
             public void onClick(View view, int position) {
-                Post post= mDatas.get(position);
+                Post post = mDatas.get(position);
                 Intent intent = new Intent(getBaseContext(), LookActivity.class);
 
                 intent.putExtra("title", post.getTitle());
-                intent.putExtra( "contents", post.getContents());
+                intent.putExtra("contents", post.getContents());
                 intent.putExtra("postId", post.getPostId());
 
                 startActivity(intent);
@@ -68,6 +70,7 @@ public class CRoomActivity extends AppCompatActivity {
         }));
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -88,15 +91,15 @@ public class CRoomActivity extends AppCompatActivity {
                                 String title = String.valueOf(shot.get(FirebaseID.title));
                                 String contents = String.valueOf(shot.get(FirebaseID.contents));
                                 final String postid = String.valueOf(shot.get(FirebaseID.postId));
-                                final Post data = new Post(documentId,nickname, title, contents, postid);
+                                final Post data = new Post(documentId, nickname, title, contents, postid);
                                 mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                        if(task.isSuccessful()){
+                                        if (task.isSuccessful()) {
                                             DocumentSnapshot document = task.getResult();
-                                            if(document.exists()){
-                                                for(String o: (ArrayList<String>) document.get(FirebaseID.myChatting)) {
-                                                    if(o.equals(postid)){
+                                            if (document.exists()) {
+                                                for (String o : (ArrayList<String>) document.get(FirebaseID.myChatting)) {
+                                                    if (o.equals(postid)) {
                                                         mDatas.add(data);
                                                         mAdapter = new PostAdapter(mDatas);
                                                         mPostRecyclerView.setAdapter(mAdapter);
@@ -115,11 +118,13 @@ public class CRoomActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public interface ClickListener {
         void onClick(View view, int position);
 
         void onLongClick(View view, int position);
     }
+
     public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
 
         private GestureDetector gestureDetector;
@@ -159,5 +164,11 @@ public class CRoomActivity extends AppCompatActivity {
         @Override
         public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(CRoomActivity.this, ChooseActivity.class));
+        finish();
     }
 }
