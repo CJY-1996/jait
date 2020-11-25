@@ -3,6 +3,7 @@ package com.example.jait;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -100,6 +103,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mDefRef.update("profileUri", newUri.toString());
+
+                // row_main의 image_chat imageview 변경
+                View inflater = getLayoutInflater().inflate(R.layout.row_main, null, false);
+                ImageView image_chat = (ImageView) inflater.findViewById(R.id.image_chat);
+                image_chat.setImageURI(newUri);
+
                 startActivity(new Intent(ProfileActivity.this, ChooseActivity.class));
             }
         });
@@ -219,6 +228,7 @@ public class ProfileActivity extends AppCompatActivity {
         int id = cursor.getInt(cursor.getColumnIndex("_id"));
         newUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
         profile_image.setImageURI(newUri);
+
 
         /**
          *  tempFile 사용 후 null 처리를 해줘야 합니다.
