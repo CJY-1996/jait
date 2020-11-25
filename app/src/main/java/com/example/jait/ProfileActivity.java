@@ -2,19 +2,14 @@ package com.example.jait;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,12 +18,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -36,10 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -106,7 +95,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-        // 왜 안됨...
         Button profile_save = (Button) findViewById(R.id.profile_save);
         profile_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,13 +214,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         ImageView profile_image = findViewById(R.id.profile_image);
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        Bitmap originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+        Cursor cursor = getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, "_data = '" + tempFile.getAbsolutePath() + "'", null, null);
+        cursor.moveToNext();
+        int id = cursor.getInt(cursor.getColumnIndex("_id"));
+        newUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+        profile_image.setImageURI(newUri);
 
-        profile_image.setImageBitmap(originalBm);
-
-
-        newUri = Uri.parse("android.resource://com.example.jait/" + profile_image.getDrawable());
         /**
          *  tempFile 사용 후 null 처리를 해줘야 합니다.
          *  (resultCode != RESULT_OK) 일 때 tempFile 을 삭제하기 때문에

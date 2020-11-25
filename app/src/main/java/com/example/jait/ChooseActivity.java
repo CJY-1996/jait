@@ -7,6 +7,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -16,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -49,7 +50,8 @@ public class ChooseActivity extends AppCompatActivity {
                         imageUri = Uri.parse(document.get(FirebaseID.profileUri).toString());
                         ImageView drawer_profile_image = findViewById(R.id.drawer_profile_image);
                         drawer_profile_image.setImageURI(imageUri);
-                        System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ"+imageUri);
+                        drawer_profile_image.setBackground(new ShapeDrawable(new OvalShape()));
+                        drawer_profile_image.setClipToOutline(true);
                     }
                 }
             }
