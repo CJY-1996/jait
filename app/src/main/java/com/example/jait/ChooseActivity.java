@@ -46,31 +46,6 @@ public class ChooseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose);
 
-
-        mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        final ImageView drawer_profile_image = findViewById(R.id.drawer_profile_image);
-                        String imagename = document.get(FirebaseID.nickname) + ".png";
-                        FirebaseStorage storage = FirebaseStorage.getInstance();
-                        StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
-                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(getApplicationContext()).load(uri).into(drawer_profile_image);
-                                drawer_profile_image.setBackground(new ShapeDrawable(new OvalShape()));
-                                drawer_profile_image.setClipToOutline(true);
-                            }
-                        });
-                    }
-                }
-            }
-        });
-
-
 // Navigation View
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerView = (View) findViewById(R.id.drawer);
@@ -79,7 +54,32 @@ public class ChooseActivity extends AppCompatActivity {
         btn_open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(drawerView);
+
+                mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                final ImageView drawer_profile_image = findViewById(R.id.drawer_profile_image);
+                                String imagename = document.get(FirebaseID.nickname) + ".png";
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Glide.with(getApplicationContext()).load(uri).into(drawer_profile_image);
+                                        drawer_profile_image.setBackground(new ShapeDrawable(new OvalShape()));
+                                        drawer_profile_image.setClipToOutline(true);
+
+                                        drawerLayout.openDrawer(drawerView);
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+
             }
         });
 

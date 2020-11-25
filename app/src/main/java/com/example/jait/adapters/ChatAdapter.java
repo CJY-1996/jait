@@ -1,6 +1,8 @@
 package com.example.jait.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -14,11 +16,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.jait.FirebaseID;
 import com.example.jait.R;
 import com.example.jait.models.Message;
 import com.example.jait.utils.SCUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -26,6 +30,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -64,10 +70,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             mStore.collection(FirebaseID.user).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if(message.getUserID().equals(document.get(FirebaseID.nickname))){
-                                myViewHolder.imageView_chat.setImageURI(Uri.parse(document.get(FirebaseID.profileUri).toString()));
+                            if (message.getUserID().equals(document.get(FirebaseID.nickname))) {
+                               // myViewHolder.imageView_chat.setImageURI(Uri.parse(document.get(FirebaseID.profileUri).toString()));
+
+                                String imagename = document.get(FirebaseID.nickname) + ".png";
+                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                StorageReference storageRef = storage.getReferenceFromUrl("gs://jait-2c9d0.appspot.com/images/").child(imagename);
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        Glide.with(mContext.getApplicationContext()).load(uri).into(myViewHolder.imageView_chat);
+                                        myViewHolder.imageView_chat.setBackground(new ShapeDrawable(new OvalShape()));
+                                        myViewHolder.imageView_chat.setClipToOutline(true);
+                                    }
+                                });
                             }
                         }
                     }
@@ -76,14 +94,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        if(document.exists()){
-                            if(message.getUserID().equals(document.get(FirebaseID.nickname))){
+                        if (document.exists()) {
+                            if (message.getUserID().equals(document.get(FirebaseID.nickname))) {
                                 myViewHolder.linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                                 myViewHolder.linearLayout.setGravity(5);
-                            }
-                            else{
+                            } else {
                                 myViewHolder.linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
                                 myViewHolder.linearLayout.setGravity(3);
                             }
@@ -104,6 +121,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         protected TextView textView_message;
         protected TextView textView_timestamp;
         protected LinearLayout linearLayout;
+
         public MyViewHolder(View view) {
             super(view);
             this.imageView_chat = (ImageView) view.findViewById(R.id.image_chat);

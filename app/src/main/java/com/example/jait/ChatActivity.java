@@ -128,6 +128,7 @@ public class ChatActivity extends AppCompatActivity {
         logic_for_username();
     }
 
+
     private void process_new_message(String new_message, boolean isNotification) {
         if (new_message.isEmpty()) {
             return;
