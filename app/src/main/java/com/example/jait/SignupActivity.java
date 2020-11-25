@@ -56,8 +56,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                                 Map<String, Object> userMap = new HashMap<>();
                                 userMap.put(FirebaseID.documentID, user.getUid());
                                 userMap.put(FirebaseID.nickname, mNickName.getText().toString());
-                                userMap.put(FirebaseID.email, mEmailText.getText().toString());
-                                userMap.put(FirebaseID.password, mPasswordText.getText().toString());
                                 userMap.put(FirebaseID.profileUri, mProfileUri);
                                 userMap.put(FirebaseID.email,mEmailText.getText().toString());
                                 userMap.put(FirebaseID.password,mPasswordText.getText().toString());

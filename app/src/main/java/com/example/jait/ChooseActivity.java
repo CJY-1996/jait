@@ -109,7 +109,12 @@ public class ChooseActivity extends AppCompatActivity {
                 startActivity(new Intent(ChooseActivity.this, WritingActivity.class));
             }
         });
-
+        findViewById(R.id.choose_chatting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ChooseActivity.this,CRoomActivity.class));
+            }
+        });
     }
 
     // 찾아보고 Custom 가능
