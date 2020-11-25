@@ -35,6 +35,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.gun0912.tedpermission.PermissionListener;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private DocumentReference mDocRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
 
     private Uri imageUri = Uri.parse("android.resource://com.example.jait/" + R.drawable.ic_nav_profile_circle_800);
     private String mProfileUri = imageUri.toString();
@@ -96,8 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    if(user!=null)
-                                    {
+                                    if (user != null) {
                                         startActivity(new Intent(MainActivity.this, ChooseActivity.class));
                                     }
                                 } else {
@@ -117,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -143,16 +146,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                Map<String, Object> userMap = new HashMap<>();
-                                userMap.put(FirebaseID.documentID, user.getUid());
-                                userMap.put(FirebaseID.email, user.getEmail());
-                                userMap.put("nickname", user.getDisplayName());
-                                userMap.put(FirebaseID.myChatting, Arrays.asList());
-                                userMap.put(FirebaseID.profileUri, mProfileUri);
-                                mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
-                                startActivity(new Intent(MainActivity.this,ChooseActivity.class));
+                                mDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            DocumentSnapshot document = task.getResult();
+                                            if (!document.exists()) {
+                                                Map<String, Object> userMap = new HashMap<>();
+                                                userMap.put(FirebaseID.documentID, user.getUid());
+                                                userMap.put(FirebaseID.email, user.getEmail());
+                                                userMap.put("nickname", user.getDisplayName());
+                                                userMap.put(FirebaseID.myChatting, Arrays.asList());
+                                                userMap.put(FirebaseID.profileUri, mProfileUri);
+                                                mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
+                                            }
+                                        }
+                                    }
+                                });
+
+                                startActivity(new Intent(MainActivity.this, ChooseActivity.class));
                                 finish();
                             } else {
                                 // If sign in fails, display a message to the user
