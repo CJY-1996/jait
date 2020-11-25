@@ -1,39 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:clipChildren="true"
     android:gravity="center_vertical"
+    android:orientation="vertical"
     tools:context=".SignupActivity">
+
+
+    <ImageView
+        android:id="@+id/main_logo"
+        android:layout_width="0dp"
+        android:layout_height="253dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="100dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo3"
+        app:layout_constraintBottom_toTopOf="@+id/sign_nickname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.448"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/sign_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="nickname"
-        android:layout_margin = "8dp"
-        android:background="@null"/>
+
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/border"
+        android:fontFamily="@font/bmjua"
+        android:hint="이름"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_email"
+        app:layout_constraintEnd_toEndOf="@+id/main_logo"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/main_logo"
+        app:layout_constraintTop_toBottomOf="@+id/main_logo"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <EditText
         android:id="@+id/sign_email"
-        android:layout_width ="wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_margin = "8dp"
-        android:background="@null"
-        android:hint="E-mail" />
+
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/border"
+        android:fontFamily="@font/bmjua"
+        android:hint="이메일"
+        android:paddingStart="10dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/sign_password"
+        app:layout_constraintEnd_toEndOf="@+id/sign_nickname"
+        app:layout_constraintHorizontal_bias="0.0"
+
+        app:layout_constraintStart_toStartOf="@+id/sign_nickname"
+        app:layout_constraintTop_toBottomOf="@+id/sign_nickname"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <EditText
         android:id="@+id/sign_password"
-        android:layout_width ="wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_margin = "8dp"
-        android:background="@null"
-        android:hint="Password" />
+        android:layout_width="0dp"
+        android:layout_height="60"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/border"
+        android:fontFamily="@font/bmjua"
+        android:hint="비밀번호"
+        android:paddingStart="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_success"
+        app:layout_constraintEnd_toEndOf="@+id/sign_email"
+        app:layout_constraintStart_toStartOf="@+id/sign_email"
+        app:layout_constraintTop_toBottomOf="@+id/sign_email"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <Button
         android:id="@+id/sign_success"
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_margin = "8dp"
-        android:text="Login"
-        android:layout_gravity = "end"/>
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_gravity="end"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_border"
+        android:fontFamily="@font/bmjua"
+        android:text="회 원 가 입"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/sign_password"
+        app:layout_constraintStart_toStartOf="@+id/sign_password"
+        app:layout_constraintTop_toBottomOf="@+id/sign_password" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Copyright CJY 2020"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_success"
+        app:layout_constraintVertical_bias="1" />
+</androidx.constraintlayout.widget.ConstraintLayout>
