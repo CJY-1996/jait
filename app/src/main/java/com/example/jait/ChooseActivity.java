@@ -144,13 +144,14 @@ public class ChooseActivity extends AppCompatActivity {
         });
 
         // 새로운 모임 찾기
-        findViewById(R.id.choose_post).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.choose_chatting).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ChooseActivity.this, WritingActivity.class));
             }
         });
-        findViewById(R.id.choose_chatting).setOnClickListener(new View.OnClickListener() {
+        //내 채팅방
+        findViewById(R.id.choose_post).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ChooseActivity.this, CRoomActivity.class));
