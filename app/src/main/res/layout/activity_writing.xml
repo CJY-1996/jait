@@ -17,9 +17,12 @@
         android:id="@+id/writing_post_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_edit"
+        android:src="@drawable/ic_baseline_edit_24"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        app:borderWidth="0dp"
+        android:backgroundTint="#660099"
+        />
 
 </RelativeLayout>

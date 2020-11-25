@@ -17,10 +17,12 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:maxLength="25"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
             android:background="@drawable/post_title_underbar"
+            android:fontFamily="@font/bmjua_ttf"
+            android:padding="5dp"
             tools:text = "TITLE"/>
         <TextView
             android:id="@+id/item_post_content"
@@ -29,6 +31,7 @@
             android:textSize="20sp"
             android:textColor="#000020"
             android:layout_margin="8dp"
+            android:fontFamily="@font/bmjua_ttf"
             tools:text = "Contents"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="3dp"
+                android:layout_marginLeft="8dp"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
                 android:layout_gravity="center_horizontal"
