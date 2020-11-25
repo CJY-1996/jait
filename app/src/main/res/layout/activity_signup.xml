@@ -69,7 +69,7 @@
     <EditText
         android:id="@+id/sign_password"
         android:layout_width="0dp"
-        android:layout_height="60"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/border"
