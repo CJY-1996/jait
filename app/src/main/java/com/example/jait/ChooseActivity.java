@@ -94,6 +94,12 @@ public class ChooseActivity extends AppCompatActivity {
                 startActivity(new Intent(ChooseActivity.this, ProfileActivity.class));
             }
         });
+        findViewById(R.id.drawer_nav_text_reprofile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ChooseActivity.this, ProfileActivity.class));
+            }
+        });
 
         //nav 나가기
         ImageButton btn_close = (ImageButton) findViewById(R.id.drawer_close);
