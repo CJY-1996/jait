@@ -10,8 +10,7 @@
     <ImageView
         android:id="@+id/profile_image"
         android:layout_width="match_parent"
-        android:layout_height="542dp"
-        android:src="@drawable/ic_nav_profile_circle_800" />
+        android:layout_height="542dp" />
 
     <Button
         android:id="@+id/profile_gallery"

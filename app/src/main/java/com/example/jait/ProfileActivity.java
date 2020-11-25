@@ -20,6 +20,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -27,8 +36,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -43,10 +56,30 @@ public class ProfileActivity extends AppCompatActivity {
 
     private File tempFile;
 
+    private FirebaseFirestore mStore = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private DocumentReference mDefRef = mStore.collection(FirebaseID.user).document(mAuth.getCurrentUser().getUid());
+    private Uri imageUri;
+    private Uri newUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        mDefRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        imageUri = Uri.parse(document.get(FirebaseID.profileUri).toString());
+                        ImageView profile_image = findViewById(R.id.profile_image);
+                        profile_image.setImageURI(imageUri);
+                    }
+                }
+            }
+        });
 
         tedPermission();
 
@@ -74,19 +107,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         // 왜 안됨...
-        Button save = (Button) findViewById(R.id.profile_save);
-        save.setOnClickListener(new View.OnClickListener() {
+        Button profile_save = (Button) findViewById(R.id.profile_save);
+        profile_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View drawer = inflater.inflate(R.layout.activity_drawer, null);
-
-                ImageView i = (ImageView)drawer.findViewById(R.id.drawer_profile_image);
-                ImageView ii = (ImageView)findViewById(R.id.profile_image);
-                BitmapDrawable im = (BitmapDrawable)ii.getDrawable();
-                Bitmap b = im.getBitmap();
-                i.setImageBitmap(b);
-
+                mDefRef.update("profileUri", newUri.toString());
                 startActivity(new Intent(ProfileActivity.this, ChooseActivity.class));
             }
         });
@@ -207,6 +232,7 @@ public class ProfileActivity extends AppCompatActivity {
         profile_image.setImageBitmap(originalBm);
 
 
+        newUri = Uri.parse("android.resource://com.example.jait/" + profile_image.getDrawable());
         /**
          *  tempFile 사용 후 null 처리를 해줘야 합니다.
          *  (resultCode != RESULT_OK) 일 때 tempFile 을 삭제하기 때문에

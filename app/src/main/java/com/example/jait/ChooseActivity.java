@@ -47,8 +47,9 @@ public class ChooseActivity extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         imageUri = Uri.parse(document.get(FirebaseID.profileUri).toString());
-                        ImageView a = findViewById(R.id.drawer_profile_image);
-                        a.setImageURI(imageUri);
+                        ImageView drawer_profile_image = findViewById(R.id.drawer_profile_image);
+                        drawer_profile_image.setImageURI(imageUri);
+                        System.out.println("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ"+imageUri);
                     }
                 }
             }
