@@ -27,7 +27,6 @@
             android:id="@+id/drawer_profile_image"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:src="@drawable/ic_nav_profile_circle_800"
             />
 
         <TextView
