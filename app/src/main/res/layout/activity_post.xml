@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@mipmap/ic_background"
     tools:context=".PostActivity">
 
     <LinearLayout
@@ -16,23 +17,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_margin="8dp"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@android:color/black"
-            android:hint="title"/>
+            android:layout_gravity="center_vertical"
+            android:hint="제목"/>
         <Button
             android:id="@+id/post_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_light"
-            android:text="save"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/look_button"
+            android:text="등록"
+            android:textSize="20sp" />
     </LinearLayout>
     <EditText
         android:id="@+id/post_contents_edit"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textSize="16sp"
-        android:textColor="@android:color/holo_blue_light"
-        android:hint="Contents"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:hint="내용을 입력해주세요."
         android:background="@null"/>
 </androidx.appcompat.widget.LinearLayoutCompat>
