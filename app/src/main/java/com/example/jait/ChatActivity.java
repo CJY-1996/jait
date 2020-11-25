@@ -206,12 +206,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - time >= 2000) {
-            time = System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(), "한번더 누르면 채팅이 종료됩니다.", Toast.LENGTH_SHORT).show();
-        } else if (System.currentTimeMillis() - time < 2000) {
-            startActivity(new Intent(ChatActivity.this, CRoomActivity.class));
-            finish();
-        }
+        startActivity(new Intent(ChatActivity.this, CRoomActivity.class));
+        finish();
     }
 }

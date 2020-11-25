@@ -192,6 +192,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                                 userMap.put(FirebaseID.myChatting, Arrays.asList());
                                                 userMap.put(FirebaseID.profileUri, mProfileUri);
                                                 mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
+                                                //
+                                                View inflater = getLayoutInflater().inflate(R.layout.activity_profile, null, false);
+                                                ImageView image_chat = (ImageView) inflater.findViewById(R.id.profile_image);
+                                                image_chat.setImageResource(R.drawable.ic_nav_profile_circle_800);
                                             }
                                         }
                                     }
