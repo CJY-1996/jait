@@ -6,47 +6,107 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     android:orientation="vertical"
-    tools:context=".MainActivity">
-
-    <EditText
-        android:id="@+id/login_email"
-        android:layout_width ="wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_margin = "8dp"
-        android:background="@null"
-        android:hint="E-mail" />
-    <EditText
-        android:id="@+id/login_password"
-        android:layout_width ="wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_margin = "8dp"
-        android:background="@null"
-        android:hint="Password" />
-    <LinearLayout
+    tools:context=".MainActivity"
+    android:background="#FFFFFF">
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity = "end"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/login_signup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SignUp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:textSize = "16sp"/>
+        android:layout_height="280dp"
+        android:src="@drawable/logo2"
+        android:scaleType="centerInside"
+        android:layout_marginTop="50dp"
+
+        />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <EditText
+
+            android:id="@+id/login_email"
+            android:layout_width="290dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/border"
+            android:backgroundTint="@drawable/border"
+            android:fontFamily="@font/baemin"
+            android:gravity="center"
+            android:hint="계정 혹은 이메일"
+            app:layout_constraintBottom_toTopOf="@+id/login_password"
+            app:layout_constraintEnd_toStartOf="@+id/login_success"
+            app:layout_constraintHorizontal_bias="0.615"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.923" />
+
+        <EditText
+            android:id="@+id/login_password"
+            android:layout_width="290dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border"
+            android:fontFamily="@font/baemin"
+            android:gravity="center"
+            android:hint="비밀번호"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/login_success"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.659" />
 
         <Button
             android:id="@+id/login_success"
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_margin = "8dp"
-            android:text="Login"
-            android:layout_gravity = "end"/>
-    </LinearLayout>
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/google_login"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:background="@drawable/button_border"
+            android:fontFamily="@font/baemin"
+            android:text="로그인"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="250dp"
+        android:gravity = "end"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/login_signup"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:background="@drawable/button_border"
+            android:fontFamily="@font/baemin"
+            android:gravity="center"
+            android:text="회원가입"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintBottom_toTopOf="@+id/google_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/google_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="85dp">
+
+        </com.google.android.gms.common.SignInButton>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.appcompat.widget.LinearLayoutCompat>
