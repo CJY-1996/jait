@@ -2,50 +2,66 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-<LinearLayout
-    android:id="@+id/chat_linear"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="left"
-    android:layoutDirection="ltr"
-    >
-    <ImageView
-        android:id="@+id/image_chat"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"/>
-    <TextView
-        android:id="@+id/textView_message"
-        android:layout_width="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/chat_linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_gravity="center"
-        android:maxLines="3"
-        android:text="Long message LongLong message Long"
-        android:maxWidth="250dp"
-        android:autoLink="all"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:padding="5dp"
-        android:background="@drawable/chat_edge"
-        />
-    <TextView
-        android:id="@+id/text_timestamp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"
-        android:layout_margin="2dp"
-        android:text="timestamp"
-        android:autoLink="all"
-        android:textColor="#000000"
-        android:textSize="10sp"
-        android:padding="5dp" />
-</LinearLayout>
+        android:gravity="left"
+        android:layoutDirection="ltr"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/image_chat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textColor="#808080"
+                android:textSize="15sp"
+                android:fontFamily="@font/bmjua_ttf"/>
+
+            <TextView
+                android:id="@+id/textView_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="4dp"
+                android:autoLink="all"
+                android:background="@drawable/chat_edge"
+                android:maxLines="3"
+                android:padding="5dp"
+                android:text="Long message LongLong message Long"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:fontFamily="@font/bmjua_ttf"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:autoLink="all"
+            android:padding="5dp"
+            android:text="timestamp"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </LinearLayout>
 </RelativeLayout>

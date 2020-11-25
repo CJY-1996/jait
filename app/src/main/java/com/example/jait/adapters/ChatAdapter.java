@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -63,8 +64,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         if (message.isNotification()) {
             myViewHolder.textView_message.setText(Html.fromHtml("<small><i><font color=\"#FFBB33\">" + " " + message.getMessage() + "</font></i></small>"));
         } else {
+            myViewHolder.textView_name.setText(
+                    (message.getUsername()));
             myViewHolder.textView_message.setText(
-                    Html.fromHtml("<font color=\"#403835\">&#x3C;" + message.getUsername() + "&#x3E;</font>" + " " + message.getMessage() + " <font color=\"#999999\">"));
+                    (" " + message.getMessage()));
             myViewHolder.textView_timestamp.setText(formatted_date);
 
             mStore.collection(FirebaseID.user).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -118,6 +121,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         protected ImageView imageView_chat;
+        protected TextView textView_name;
         protected TextView textView_message;
         protected TextView textView_timestamp;
         protected LinearLayout linearLayout;
@@ -125,6 +129,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         public MyViewHolder(View view) {
             super(view);
             this.imageView_chat = (ImageView) view.findViewById(R.id.image_chat);
+            this.textView_name = (TextView) view.findViewById(R.id.textView_name);
             this.textView_message = (TextView) view.findViewById(R.id.textView_message);
             this.textView_timestamp = (TextView) view.findViewById(R.id.text_timestamp);
             this.linearLayout = (LinearLayout) view.findViewById(R.id.chat_linear);

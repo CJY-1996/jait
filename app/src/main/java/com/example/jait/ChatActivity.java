@@ -43,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
     private String username = ""; //default username
     private boolean PROFANITY_FILTER_ACTIVE = true;
     private FirebaseDatabase database;
+    private TextView toolbar_text;
     private RecyclerView main_recycler_view;
     private String userID;
     private ChatActivity mContext;
@@ -55,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
     private long last_message_timestamp = 0;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private String postnum = "";
-
+    private String title = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mContext = ChatActivity.this;
+        toolbar_text = (TextView) findViewById(R.id.toolbar_text);
         main_recycler_view = (RecyclerView) findViewById(R.id.main_recycler);
         imageButton_send = (ImageButton) findViewById(R.id.imageButton_send);
         editText_message = (EditText) findViewById(R.id.editText_message);
@@ -77,6 +79,9 @@ public class ChatActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         postnum = extras.getString("postId");
+        title = extras.getString("title");
+
+        toolbar_text.setText(title);
 
         databaseRef.child("chatting").child(postnum).child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
             @Override
@@ -164,6 +169,7 @@ public class ChatActivity extends AppCompatActivity {
         input.setText(username);
         alertDialogUsername.setView(input);
 
+        //오른쪽위 toolbar
         alertDialogUsername.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
 
             @Override

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="8dp"
-        android:background="@drawable/chat_edge">
+        android:background="@drawable/post_edge">
         <TextView
             android:id="@+id/item_post_title"
             android:layout_width="match_parent"
@@ -50,11 +50,17 @@
 
             <Button
                 android:id="@+id/item_post_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="delete"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="삭제"
+                android:layout_gravity="right"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/delete_button"
+                android:textColor="#ffffff"
+                android:textSize="20sp"
+                android:fontFamily="@font/bmjua_ttf"/>
+
         </LinearLayout>
     </LinearLayout>
 
