@@ -38,7 +38,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>{
             myViewHolder.textView_message.setText(Html.fromHtml("<small><i><font color=\"#FFBB33\">" + " " + message.getMessage() + "</font></i></small>"));
         }else {
             myViewHolder.textView_message.setText(
-                    Html.fromHtml("<font color=\"#403835\">&#x3C;" + message.getUsername() + "&#x3E;</font>" + " " + message.getMessage() + " <font color=\"#999999\">" + formatted_date + "</font>"));
+                    Html.fromHtml("<font color=\"#403835\">&#x3C;" + message.getUsername() + "&#x3E;</font>" + " " + message.getMessage() + " <font color=\"#999999\">"));
+            myViewHolder.textView_timestamp.setText(formatted_date);
         }
     }
 
@@ -48,10 +49,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder>{
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         protected TextView textView_message;
-
+        protected TextView textView_timestamp;
         public MyViewHolder(View view) {
             super(view);
             this.textView_message = (TextView) view.findViewById(R.id.textView_message);
+            this.textView_timestamp = (TextView) view.findViewById(R.id.text_timestamp);
         }
     }
 }

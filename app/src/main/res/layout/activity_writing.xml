@@ -6,12 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".WritingActivity">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/writing_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_loop_24"
-        android:layout_alignParentBottom="true"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/writing_recyclerview"
         android:layout_width="match_parent"

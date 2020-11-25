@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 userMap.put(FirebaseID.documentID, user.getUid());
                                 userMap.put(FirebaseID.email, user.getEmail());
                                 userMap.put("nickname", user.getDisplayName());
+                                userMap.put(FirebaseID.myChatting, Arrays.asList());
                                 userMap.put(FirebaseID.profileUri, mProfileUri);
                                 mStore.collection(FirebaseID.user).document(user.getUid()).set(userMap, SetOptions.merge());
                                 startActivity(new Intent(MainActivity.this,ChooseActivity.class));

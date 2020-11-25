@@ -8,39 +8,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_margin="8dp"
+        android:background="@drawable/chat_edge">
         <TextView
             android:id="@+id/item_post_title"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textSize="24sp"
+            android:maxLength="25"
+            android:textSize="30sp"
             android:textColor="@android:color/black"
             android:textStyle="bold"
+            android:background="@drawable/post_title_underbar"
             tools:text = "TITLE"/>
         <TextView
-            android:id="@+id/item_post_nickname"
+            android:id="@+id/item_post_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            android:layout_gravity="center_vertical"
-            tools:text = "작성자 : Nickname"/>
-        <Button
-            android:id="@+id/item_post_delete"
-            android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#000020"
+            android:layout_margin="8dp"
+            tools:text = "Contents"/>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="delete"
-            android:textSize="10sp"
-            android:textStyle="bold"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/item_post_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="3dp"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:layout_gravity="center_horizontal"
+                tools:text = "작성자 : Nickname"/>
+
+            <Button
+                android:id="@+id/item_post_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="delete"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
-    <TextView
-        android:id="@+id/item_post_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@android:color/holo_blue_light"
-        tools:text = "Contents"/>
+
 </androidx.appcompat.widget.LinearLayoutCompat>
