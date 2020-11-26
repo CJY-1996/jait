@@ -1,10 +1,13 @@
 package com.example.jait.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,9 +106,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
                             if (message.getUserID().equals(document.get(FirebaseID.nickname))) {
                                 myViewHolder.linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                                 myViewHolder.linearLayout.setGravity(5);
+                                myViewHolder.textView_timestamp.setGravity(Gravity.RIGHT|Gravity.BOTTOM);
+                                myViewHolder.textView_message.setBackgroundResource(R.drawable.chat_edge_mine);
                             } else {
                                 myViewHolder.linearLayout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
                                 myViewHolder.linearLayout.setGravity(3);
+                                myViewHolder.textView_timestamp.setGravity(Gravity.LEFT|Gravity.BOTTOM);
+                                myViewHolder.textView_message.setBackgroundResource(R.drawable.chat_edge);
                             }
                         }
                     }

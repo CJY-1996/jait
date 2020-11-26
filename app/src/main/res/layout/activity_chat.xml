@@ -14,16 +14,6 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#660099"
         app:popupTheme="@style/AppTheme.PopupOverlay">
-        <TextView
-            android:id="@+id/toolbar_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text = "Title"
-            android:textSize="30sp"
-            android:layout_gravity="center"
-            android:fontFamily="@font/bmjua_ttf"
-            android:textStyle="bold"
-            />
 
     </androidx.appcompat.widget.Toolbar>
 

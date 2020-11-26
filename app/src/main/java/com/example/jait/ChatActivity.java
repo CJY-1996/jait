@@ -63,9 +63,9 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mContext = ChatActivity.this;
-        toolbar_text = (TextView) findViewById(R.id.toolbar_text);
         main_recycler_view = (RecyclerView) findViewById(R.id.main_recycler);
         imageButton_send = (ImageButton) findViewById(R.id.imageButton_send);
         editText_message = (EditText) findViewById(R.id.editText_message);
@@ -81,7 +81,7 @@ public class ChatActivity extends AppCompatActivity {
         postnum = extras.getString("postId");
         title = extras.getString("title");
 
-        toolbar_text.setText(title);
+        toolbar.setTitle(title);
 
         databaseRef.child("chatting").child(postnum).child("the_messages").limitToLast(50).addChildEventListener(new ChildEventListener() {
             @Override
@@ -200,10 +200,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            show_alert_username();
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
     }

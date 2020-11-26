@@ -70,12 +70,14 @@ public class LookActivity extends AppCompatActivity {
         contentsView.setText(contents);
 
         final String finalPostnum = postnum;
+        final String finalTitle = title;
         findViewById(R.id.look_getchat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mDocRef.update(FirebaseID.myChatting, FieldValue.arrayUnion(finalPostnum));
                 Intent intent = new Intent(getBaseContext(), ChatActivity.class);
                 intent.putExtra("postId", finalPostnum);
+                intent.putExtra("title", finalTitle);
                 startActivity(intent);
                 getSaveFile();
                 finish();
