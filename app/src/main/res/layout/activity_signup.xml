@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:clipChildren="true"
     android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context=".SignupActivity">
@@ -14,29 +13,30 @@
     <ImageView
         android:id="@+id/main_logo"
         android:layout_width="0dp"
-        android:layout_height="253dp"
+        android:layout_height="0dp"
         android:layout_marginStart="3dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="10dp"
         android:scaleType="centerInside"
         android:src="@drawable/logo3"
         app:layout_constraintBottom_toTopOf="@+id/sign_nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="6"/>
 
     <EditText
         android:id="@+id/sign_nickname"
 
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
 
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/border"
         android:fontFamily="@font/bmjua"
-        android:hint="이름"
+        android:hint="닉네임"
         android:paddingStart="10dp"
         app:layout_constraintBottom_toTopOf="@+id/sign_email"
         app:layout_constraintEnd_toEndOf="@+id/main_logo"
@@ -44,15 +44,15 @@
         app:layout_constraintStart_toStartOf="@+id/main_logo"
         app:layout_constraintTop_toBottomOf="@+id/main_logo"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_weight="1.5"/>
 
     <EditText
         android:id="@+id/sign_email"
 
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/border"
         android:fontFamily="@font/bmjua"
         android:hint="이메일"
@@ -64,14 +64,15 @@
 
         app:layout_constraintStart_toStartOf="@+id/sign_nickname"
         app:layout_constraintTop_toBottomOf="@+id/sign_nickname"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_weight="1.5"/>
 
     <EditText
         android:id="@+id/sign_password"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/border"
         android:fontFamily="@font/bmjua"
         android:hint="비밀번호"
@@ -80,26 +81,29 @@
         app:layout_constraintEnd_toEndOf="@+id/sign_email"
         app:layout_constraintStart_toStartOf="@+id/sign_email"
         app:layout_constraintTop_toBottomOf="@+id/sign_email"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_weight="1.5"/>
 
     <Button
         android:id="@+id/sign_success"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:layout_gravity="end"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_border"
         android:fontFamily="@font/bmjua"
         android:text="회 원 가 입"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/copyright"
         app:layout_constraintEnd_toEndOf="@+id/sign_password"
         app:layout_constraintStart_toStartOf="@+id/sign_password"
-        app:layout_constraintTop_toBottomOf="@+id/sign_password" />
+        app:layout_constraintTop_toBottomOf="@+id/sign_password"
+        app:layout_constraintVertical_weight="1.2"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/copyright"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -112,5 +116,6 @@
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_success"
-        app:layout_constraintVertical_bias="1" />
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintVertical_weight="0.8"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
